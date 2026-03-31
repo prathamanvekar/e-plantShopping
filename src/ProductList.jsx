@@ -7,7 +7,7 @@ function ProductList({ onHomeClick }) {
   const [showCart, setShowCart] = useState(false);
   const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
+  const CartItems = useSelector((state) => state.cart.items);
 
   const plantsArray = [
     {
@@ -296,12 +296,14 @@ function ProductList({ onHomeClick }) {
     dispatch(addItem(plant));
   };
 
-  const getTotalCartQuantity = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+  const calculateTotalQuantity = () => {
+    return CartItems
+      ? CartItems.reduce((total, item) => total + item.quantity, 0)
+      : 0;
   };
 
   const isInCart = (plantName) => {
-    return cartItems.some((item) => item.name === plantName);
+    return CartItems.some((item) => item.name === plantName);
   };
 
   useEffect(() => {
@@ -357,7 +359,7 @@ function ProductList({ onHomeClick }) {
                   ></path>
                 </svg>
                 <div className="cart_quantity_count">
-                  {getTotalCartQuantity()}
+                  {calculateTotalQuantity()}
                 </div>
               </h1>
             </a>
